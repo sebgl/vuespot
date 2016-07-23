@@ -1,23 +1,25 @@
 <template>
     <sidebar></sidebar>
     <content v-on:play-audio="playAudio"
-             v-on:modal="toggleModal"></content>
+        v-on:modal="toggleModal">
+      <router-view></router-view>
+    </content>
     <player v-ref:player></player>
     <modal v-ref:modal></modal>
 </template>
 
 <script>
 import sidebar from './components/sidebar'
-import content from './components/content'
 import player from './components/player'
 import modal from './components/modal'
+import content from './components/content'
 
 export default {
   components: {
     sidebar,
-    content,
     player,
-    modal
+    modal,
+    content
   },
   methods: {
     playAudio: function (url) {
