@@ -1,13 +1,17 @@
-import Vue from 'vue'
-
 <template>
   <template v-if="searchResultTracks.length > 0">
     <div class="ui container inverted segment">
+      <!-- item list -->
       <div class="ui middle aligned divided inverted list">
         <div class="item" v-for="track in searchResultTracks">
-
-          <img class="ui middle aligned mini right floated image clickable" v-bind:src="track.album.images[0].url" v-on:click="displayModal(track.album.images[0].url)">
-          <i class="right triangle icon clickable" v-on:click="play(track.preview_url)"></i>
+          <!-- album image -->
+          <modal>
+            <img slot="content" class="ui middle aligned mini right floated image clickable" v-bind:src="track.album.images[0].url">
+            <img slot="modal-content" v-bind:src="track.album.images[0].url">
+          </modal>
+          <!-- play icon -->
+          <i class="right triangle icon clickable" v-on:click="play(track.preview_url)"></i> 
+          <!--- track info -->
           <div class="content">
             <div class="header">{{ track.name }}</div>
             <div class="description">
@@ -17,7 +21,6 @@ import Vue from 'vue'
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </template>
@@ -25,7 +28,11 @@ import Vue from 'vue'
 </template>
 
 <script>
+import modal from './modal'
 export default {
+  components: {
+    modal
+  },
   data () {
     return {
       q: this.$route.params.q,
@@ -44,9 +51,6 @@ export default {
     },
     play: function (url) {
       this.$dispatch('play-audio', url)
-    },
-    displayModal: function (url) {
-      this.$dispatch('modal', url)
     }
   },
   ready: function () {

@@ -4,9 +4,10 @@
 
     <!--- artist info -->
     <div class="ui six wide middle aligned column">
-      <div>
-        <img class="ui rounded image clickable" v-bind:src="image" v-on:click="displayModal(image)"></img>
-      </div>
+      <modal>
+        <img slot="content" class="ui rounded image clickable" v-bind:src="image">
+        <img slot="modal-content" v-bind:src="image">
+      </modal>
       <h1 class="ui left aligned inverted header">{{ name }}</h1>
     </div>
 
@@ -48,7 +49,11 @@
 </template>
 
 <script>
+import modal from './modal'
 export default {
+  components: {
+    modal
+  },
   data () {
     return {
       id: this.$route.params.id,
@@ -64,7 +69,6 @@ export default {
           (response) => {
             this.name = response.data.name
             this.image = response.data.images[0].url
-            console.log(response)
           },
           (responseError) => {
             console.log('error callback')
@@ -73,7 +77,6 @@ export default {
     getArtistTopTracks: function () {
       this.$http.get('https://api.spotify.com/v1/artists/' + this.id + '/top-tracks?country=FR').then(
               (response) => {
-                console.log(response)
                 this.topTracks = []
                 for (let t of response.data.tracks) {
                   this.topTracks.push({
@@ -119,9 +122,6 @@ export default {
     },
     play: function (url) {
       this.$dispatch('play-audio', url)
-    },
-    displayModal: function (url) {
-      this.$dispatch('modal', url)
     }
   },
   ready: function () {

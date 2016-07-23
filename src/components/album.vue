@@ -1,12 +1,13 @@
-t<template>
+<template>
 <div class="ui inverted segment">
   <div class="ui grid">
 
     <!--- album info -->
     <div class="ui six wide middle aligned column">
-      <div>
-        <img class="ui rounded image clickable" v-bind:src="image" v-on:click="displayModal(image)" />
-      </div>
+      <modal>
+        <img slot="content" class="ui rounded image clickable" v-bind:src="image">
+        <img slot="modal-content" v-bind:src="image">
+      </modal>
       <h2 class="ui right aligned inverted header">
         <span class="clickable" v-link="'/artist/'+artistId">{{ artist }}</span>
         <span> - {{ name }} ({{ year }})</span>
@@ -28,13 +29,16 @@ t<template>
         </div>
       </div>
     </div>
-    
   </div>
 </div>
 </template>
 
 <script>
+import modal from './modal'
 export default {
+  components: {
+    modal
+  },
   data () {
     return {
       id: this.$route.params.id,
@@ -53,7 +57,6 @@ export default {
     search: function () {
       this.$http.get('https://api.spotify.com/v1/albums/' + this.id).then(
           (response) => {
-            console.log(response)
             this.artist = response.data.artists[0].name
             this.artistId = response.data.artists[0].id
             this.name = response.data.name
@@ -67,9 +70,6 @@ export default {
     },
     play: function (url) {
       this.$dispatch('play-audio', url)
-    },
-    displayModal: function (url) {
-      this.$dispatch('modal', url)
     }
   }
 }

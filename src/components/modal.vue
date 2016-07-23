@@ -1,24 +1,27 @@
 <template>
+  <!-- small content, always on -->
+  <div v-on:click="toggle">
+    <slot name="content"></slot>
+  </div>
+  <!-- modal content taking up the entire screen, on-click -->
   <div class="modal" v-if="modalDisplay" v-on:click="toggle">
     <div class="modalcontent">
       <div class="ui image content">
-        <img v-bind:src="modalImage">
+        <slot name="modal-content"></slot>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      modalImage: 'https://i.scdn.co/image/76db0199ec68a499a7d57bc72d64dce654dda39f',
       modalDisplay: false
     }
   },
   methods: {
     toggle: function (url) {
-      this.modalImage = url
       this.modalDisplay = !this.modalDisplay
     }
   }
