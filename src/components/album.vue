@@ -1,6 +1,6 @@
 <template>
 <div class="ui inverted segment">
-  <div class="ui grid">
+  <div class="ui stackable grid">
 
     <!--- album info -->
     <div class="ui six wide middle aligned column">
