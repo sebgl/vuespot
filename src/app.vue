@@ -36,4 +36,8 @@ export default {
 body {
   background-color: #282828;
 }
+.clickable:hover, .clickable:hover * {
+  cursor: pointer;
+  color: orange !important;
+}
 </style>

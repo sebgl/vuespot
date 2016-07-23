@@ -5,7 +5,7 @@
     <!--- artist info -->
     <div class="ui six wide middle aligned column">
       <div>
-        <img class="ui rounded image" v-bind:src="image"></img>
+        <img class="ui rounded image clickable" v-bind:src="image" v-on:click="displayModal(image)"></img>
       </div>
       <h1 class="ui left aligned inverted header">{{ name }}</h1>
     </div>
@@ -20,7 +20,7 @@
             <div class="header">
               <i class="right triangle icon clickable" v-on:click="play(track.preview_url)"></i>
               {{ track.name }}</div>
-            <div class="description">
+            <div class="description clickable" v-link="'/album/'+track.albumId">
             {{ track.album }}</div>
           </div>
         </div>
@@ -30,7 +30,7 @@
     <!--- albums -->
     <div class="ui inverted header">Albums</div>
     <div class="ui five stackable cards">
-      <div class="card" v-for="album in albums">
+      <div class="card clickable" v-for="album in albums" v-link="'/album/'+album.id">
         <div class="image">
           <img v-bind:src="album.image">
         </div>
@@ -79,6 +79,7 @@ export default {
                   this.topTracks.push({
                     name: t.name,
                     album: t.album.name,
+                    albumId: t.album.id,
                     popularity: t.popularity,
                     preview_url: t.preview_url
                   })
@@ -105,6 +106,7 @@ export default {
           (response) => {
             var data = response.data
             this.albums.push({
+              id: data.id,
               name: data.name,
               image: data.images[0].url,
               date: data.release_date.split('-')[0],
@@ -117,6 +119,9 @@ export default {
     },
     play: function (url) {
       this.$dispatch('play-audio', url)
+    },
+    displayModal: function (url) {
+      this.$dispatch('modal', url)
     }
   },
   ready: function () {

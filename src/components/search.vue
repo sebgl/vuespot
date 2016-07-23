@@ -11,8 +11,9 @@ import Vue from 'vue'
           <div class="content">
             <div class="header">{{ track.name }}</div>
             <div class="description">
-              <a class="artist" v-link="'/artist/' + track.artists[0].id">{{ track.artists[0].name }}</a>
-              - <span class="album">{{ track.album.name }} ({{ track.duration_ms | formatMsTime }})</span>
+              <span class="clickable" v-link="'/artist/' + track.artists[0].id">{{ track.artists[0].name }}</span>
+              - <span class="clickable" v-link="'/album/' + track.album.id">{{ track.album.name }}</span>
+              <span> ({{ track.duration_ms | formatMsTime }})</span>
             </div>
           </div>
         </div>
@@ -33,10 +34,8 @@ export default {
   },
   methods: {
     search: function () {
-      console.log('search with ' + this.q)
       this.$http.get('https://api.spotify.com/v1/search?type=track&q=' + this.q).then(
           (response) => {
-            console.log(response)
             this.searchResultTracks = response.data.tracks.items
           },
           (responseError) => {
@@ -53,14 +52,9 @@ export default {
   ready: function () {
     this.search()
   },
-  filters: {
-    formatMsTime: function (timeMS) {
-      return (timeMS / 1000 / 60).toFixed(2).toString().replace('.', ':')
-    }
-  },
   watch: {
     'q': function (val, oldVal) {
-      this.ready() // trigger search on page reload with a different param
+      this.search() // trigger search on page reload with a different param
     }
   },
   route: {
@@ -75,7 +69,4 @@ export default {
 </script>
 
 <style>
-.clickable:hover {
-  cursor: pointer;
-}
 </style>

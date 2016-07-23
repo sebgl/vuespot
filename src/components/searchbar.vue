@@ -10,13 +10,14 @@ import Vue from 'vue'
 export default {
   data () {
     return {
-      initialInputSearch: 'Search...',
       inputSearch: ''
     }
   },
   methods: {
     search: function () {
-      this.$router.go('/search/' + this.inputSearch)
+      var query = this.inputSearch.trim()
+      this.inputSearch = ''
+      this.$router.go('/search/' + query)
     }
   }
 }
