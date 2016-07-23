@@ -51,12 +51,24 @@ export default {
     }
   },
   ready: function () {
-    console.log('ready')
     this.search()
   },
   filters: {
     formatMsTime: function (timeMS) {
       return (timeMS / 1000 / 60).toFixed(2).toString().replace('.', ':')
+    }
+  },
+  watch: {
+    'q': function (val, oldVal) {
+      this.ready() // trigger search on page reload with a different param
+    }
+  },
+  route: {
+    data: function (transition) {
+      var newq = transition.to.params.q
+      return {
+        q: newq // set new q value on page reload with a different param
+      }
     }
   }
 }

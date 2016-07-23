@@ -12,9 +12,6 @@ Vue.use(Router)
 var router = new Router()
 
 router.map({
-  '/': {
-    component: search
-  },
   '/search/:q': {
     component: search
   },
