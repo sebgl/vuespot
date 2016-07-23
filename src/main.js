@@ -15,13 +15,13 @@ router.map({
   '/': {
     component: search
   },
-  '/search': {
+  '/search/:q': {
     component: search
   },
-  '/artist': {
+  '/artist/:id': {
     component: artist
   },
-  '/album': {
+  '/album/:id': {
     component: album
   }
 })

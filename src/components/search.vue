@@ -1,20 +1,19 @@
 import Vue from 'vue'
 
 <template>
-  <div class="ui fluid input">
-    <input type="text" placeholder="Search..." v-model="inputSearch" v-on:keyup.enter="search">
-  </div>
-
   <template v-if="searchResultTracks.length > 0">
-    <div class="ui container segment">
-      <div class="ui middle aligned divided list">
+    <div class="ui container inverted segment">
+      <div class="ui middle aligned divided inverted list">
         <div class="item" v-for="track in searchResultTracks">
 
           <img class="ui middle aligned mini right floated image clickable" v-bind:src="track.album.images[0].url" v-on:click="displayModal(track.album.images[0].url)">
           <i class="right triangle icon clickable" v-on:click="play(track.preview_url)"></i>
           <div class="content">
             <div class="header">{{ track.name }}</div>
-            <div class="description">{{ track.artists[0].name }} - {{ track.album.name }} ({{ track.duration_ms | formatMsTime }})</div>
+            <div class="description">
+              <a class="artist" v-link="'/artist/' + track.artists[0].id">{{ track.artists[0].name }}</a>
+              - <span class="album">{{ track.album.name }} ({{ track.duration_ms | formatMsTime }})</span>
+            </div>
           </div>
         </div>
 
@@ -28,14 +27,14 @@ import Vue from 'vue'
 export default {
   data () {
     return {
-      initialInputSearch: 'Search...',
-      inputSearch: '',
+      q: this.$route.params.q,
       searchResultTracks: []
     }
   },
   methods: {
     search: function () {
-      this.$http.get('https://api.spotify.com/v1/search?type=track&q=' + this.inputSearch).then(
+      console.log('search with ' + this.q)
+      this.$http.get('https://api.spotify.com/v1/search?type=track&q=' + this.q).then(
           (response) => {
             console.log(response)
             this.searchResultTracks = response.data.tracks.items
@@ -50,6 +49,10 @@ export default {
     displayModal: function (url) {
       this.$dispatch('modal', url)
     }
+  },
+  ready: function () {
+    console.log('ready')
+    this.search()
   },
   filters: {
     formatMsTime: function (timeMS) {
