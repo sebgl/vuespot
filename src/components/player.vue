@@ -1,5 +1,5 @@
 <template>
-  <div class="ui fixed">
+  <div class="playerbox">
     <audio class="player" v-el:audio v-bind:src="audioSource" preload="auto" controls>
     </audio>
   </div>
@@ -25,9 +25,21 @@ export default {
 </script>
 
 <style scoped>
-.player {
+.playerbox {
   position: fixed;
   bottom: 0;
+  height: 50px;
+  width: 100%;
+  left: 0;
   right: 0;
+  background: #000000;
+  background: linear-gradient(to top, #000000 , #282828);
+}
+.player {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>

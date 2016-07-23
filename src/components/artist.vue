@@ -30,7 +30,7 @@
     
     <!--- albums -->
     <div class="ui inverted header">Albums</div>
-    <div class="ui five stackable cards">
+    <div class="ui six doubling cards">
       <div class="card clickable" v-for="album in albums" v-link="'/album/'+album.id">
         <div class="image">
           <img v-bind:src="album.image">

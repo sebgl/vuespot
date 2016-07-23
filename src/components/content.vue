@@ -1,7 +1,7 @@
 <template>
   <div class="pusher">
-    <div class="ui twelve column stackable grid">
-      <div class="ui eight wide column centered">
+    <div class="ui stackable grid container">
+      <div class="ui column centered">
         <searchbar></searchbar>
         <slot></slot>
       </div>
